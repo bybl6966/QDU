@@ -145,11 +145,10 @@ def push_request(phone: str, password: str, name: str, stuID: str, academy: str,
 data["Body"] = json.dumps(body)
 print(data)
     # 发请求
-req = requests.post("https://h5api.xiaoyuanjijiehao.com/api/staff/interface", json=data, headers=thisHeader,verify=False)
-if req.json()["FeedbackText"] == '成功':
- return True
- return False
-
+    req = requests.post("https://h5api.xiaoyuanjijiehao.com/api/staff/interface", json=data, headers=thisHeader,verify=False)
+    if req.json()["FeedbackText"] == '成功':
+        return True
+    return False
 def main():
     # option = json.loads(os.getenv('QDU_INFO'))
     # result = push_request(**option)
