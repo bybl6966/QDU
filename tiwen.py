@@ -5,8 +5,8 @@ import os
 class signin:
     def __init__(self, usr: str, pwd: str):
         requests.packages.urllib3.disable_warnings()
-        self.usr = usr  # 手机号
-        self.pwd = pwd  # 密码
+        self.usr = '17861411366'  # 手机号
+        self.pwd = 'ytd6966be'  # 密码
         # 定义一个session()的对象实体s来储存cookie
         self.s = requests.Session()
         # self.s.proxies = {'http': 'http://localhost:8888', 'https': 'http://localhost:8888'}
@@ -115,48 +115,44 @@ def push_request(phone: str, password: str, name: str, stuID: str, academy: str,
     thisHeader.update({'AccessToken': repo.si.s.headers.get("AccessToken")})
     thisHeader.update({'Cookie': str(repo.si.s.headers.get("Cookie"))})
     # print(thisHeader)
-    data = {"Router":"/api/newcustomerform/submit","Method":"POST","Body":"{\"Field\":[{\"FieldCode\":\"disabled\","
-                                                                          "\"Content\":\"XXX\"},"
-                                                                          "{\"FieldCode\":\"disabled\","
-                                                                          "\"Content\":\"YYY\"},"
-                                                                          "{\"FieldCode\":\"disabled\","
-                                                                          "\"Content\":\"XXX\"},"
-                                                                          "{\"FieldCode\":\"disabled\","
-                                                                          "\"Content\":\"XXX\"},"
-                                                                          "{\"FieldCode\":\"disabled\","
-                                                                          "\"Content\":\"XXX\"},"
-                                                                          "{\"FieldCode\":\"disabled\","
-                                                                          "\"Content\":\"XXX\"},{\"FieldCode\":\"\","
-                                                                          "\"Content\":\"< 37.3℃\"},"
-                                                                          "{\"FieldCode\":\"\",\"Content\":\"< 37.3℃\"},"
-                                                                          "{\"FieldCode\":\"\","
-                                                                          "\"Content\":\"< 37.3℃\"},"
-                                                                          "{\"FieldCode\":\"\",\"Content\":\"否\"},"
-                                                                          "{\"FieldCode\":\"\",\"Content\":\"否\"},"
-                                                                          "{\"FieldCode\":\"\",\"Content\":\"否\"},"
-                                                                          "{\"FieldCode\":\"\",\"Content\":\"否\"}],"
-                                                                          "\"TaskCode\":\"aa\",\"TemplateId\":\"cc\"}"}
-    body = json.loads(data["Body"])
-    # 替换taskcode
-    body["TaskCode"] = repo.get_taskcode()
-    body["Field"][4]["Content"] = stuID
-    body["Field"][5]["Content"] = name
-    body["Field"][0]["Content"] = academy
-    body["Field"][1]["Content"] = stuID[0:4]
-    body["Field"][3]["Content"] = className
-    body = json.dumps(body,ensure_ascii=False)
-    data["Body"] = body
-    # data["Body"] = data["Body"]
-    print(data)
+    data = {"Router":"/api/newcustomerform/submit","Method":"POST"}
+    body = {
+    "TaskCode": repo.get_taskcode(),
+    "TemplateId": "cc", 
+    "Field": [
+       {"FieldCode":"disabled","Content":"机电工程学院"},
+       {"FieldCode":"disabled","Content":"2021"},
+       {"FieldCode":"disabled","Content":"能源与动力工程"},
+       {"FieldCode":"disabled","Content":"21能动01"},
+       {"FieldCode":"disabled","Content":"2021202965"},
+       {"FieldCode":"disabled","Content":"于腾达"},
+       {"FieldCode":"","Content":"< 37.3℃"},
+       {"FieldCode":"","Content":"< 37.3℃"},
+       {"FieldCode":"","Content":"< 37.3℃"},
+       {"FieldCode":"","Content":"否"},
+       {"FieldCode":"","Content":"370114"},
+       {"FieldCode":"","Content":"否"},
+       {"FieldCode":"","Content":"否"},
+       {"FieldCode":"","Content":"否"},
+       {"FieldCode":"","Content":"否"},
+       {"FieldCode":"","Content":"否"},
+       {"FieldCode":"","Content":"否"},
+       {"FieldCode":"","Content":"否"},
+       {"FieldCode":"","Content":"否"},
+       {"FieldCode":"","Content":"否"}
+    ],
+}
+data["Body"] = json.dumps(body)
+print(data)
     # 发请求
-    req = requests.post("https://h5api.xiaoyuanjijiehao.com/api/staff/interface", json=data, headers=thisHeader,verify=False)
-    if req.json()["FeedbackText"] == '成功':
-        return True
-    return False
+req = requests.post("https://h5api.xiaoyuanjijiehao.com/api/staff/interface", json=data, headers=thisHeader,verify=False)
+if req.json()["FeedbackText"] == '成功':
+ return True
+ return False
 
 def main():
-    option = json.loads(os.getenv('QDU_INFO'))
-    result = push_request(**option)
+    # option = json.loads(os.getenv('QDU_INFO'))
+    # result = push_request(**option)
     print(result)
     if not result:
         exit(-1)
