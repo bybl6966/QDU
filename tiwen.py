@@ -159,6 +159,8 @@ def push_request(phone: str, password: str, name: str, stuID: str, academy: str,
     req = requests.post("https://h5api.xiaoyuanjijiehao.com/api/staff/interface", json=data, headers=thisHeader,verify=False)
     if req.json()["FeedbackText"] == '成功':
         return True
+        url = "http://www.pushplus.plus/send?token=f683d160cc92450cbbf46737f8947931&title=校园集结号填报完毕&content=今日体温已填报完毕哦&template=html" 
+        res = requests.get(url)
     return False
 
 def main():
